@@ -1,36 +1,41 @@
 class MyQueue {
 
-    int start,last;
-    int arr[]=new int[1000];
+    Stack<Integer> stk= new Stack<>();
+    
     /** Initialize your data structure here. */
     public MyQueue() {
-        start=-1;
-        last=-1;
+       
     }
     
     /** Push element x to the back of queue. */
     public void push(int x) {
-        arr[++last]=x;
-        if(start==-1)
-        {start++;}
+        stk.push(x);
     }
     
     /** Removes the element from in front of queue and returns that element. */
     public int pop() {
-        if(!this.empty()){return arr[start++];}
-        return -1;
+        if(this.empty()){return -1;}
+        Stack<Integer> stk2= new Stack<>();
+        while(!stk.empty()){stk2.push(stk.pop());}
+        int value=stk2.pop();
+        while(!stk2.empty()){stk.push(stk2.pop());}
+        return value;
     }
     
     /** Get the front element. */
     public int peek() {
-        if(!this.empty()){return arr[start];}
-        return -1;
+        if(this.empty()){return -1;}
+        Stack<Integer> stk2= new Stack<>();
+        while(!stk.empty()){stk2.push(stk.pop());}
+        int value=stk2.peek();
+        while(!stk2.empty()){stk.push(stk2.pop());}
+        return value;
+        
     }
     
     /** Returns whether the queue is empty. */
     public boolean empty() {
-        if (start>last || start==-1){return true;}
-        return false;
+        return stk.empty();
     }
 }
 
