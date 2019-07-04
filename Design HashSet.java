@@ -1,38 +1,36 @@
 class MyHashSet {
 
-    int arr[]=new int[1000000];
-    int size,location;
+    int buckets=1000;
+    int bucketItems=1000;
+    boolean [][] values = new boolean[buckets][];
+    public int hashcode(int value){return value%buckets;}
+    public int pos(int value){return value/buckets;}
     
     /** Initialize your data structure here. */
     public MyHashSet() {
-        size=0;
-        location=-1;
+
     }
     
-    public void add(int key) {
-        if(!this.contains(key)){arr[size++]=key;}
+    public void add(int value) {
+        int hashcode=hashcode(value);
+        int pos=pos(value);
+        if(values[hashcode]==null){values[hashcode]= new boolean[bucketItems];}
+        values[hashcode][pos]=true;
     }
     
-    public void remove(int key) {
-        if(this.contains(key)){
-            for(int i=location;i<size;i++)
-            {
-               
-                    arr[i]=arr[i+1];
-                
-            }
-            location=-1;
-            size--;
-        }
+    public void remove(int value) {
+        int hashcode=hashcode(value);
+        int pos=pos(value);
+        values[hashcode][pos]=false;
     }
     
     /** Returns true if this set contains the specified element */
-    public boolean contains(int key) {
-     for(int i=0;i<size;i++){if(arr[i]==key){ location=i;return true;}}   
-    return false;    
+    public boolean contains(int value) {
+     int hashcode=hashcode(value);
+     int pos=pos(value);
+        return values[hashcode]!=null && values[hashcode][pos];
     }
 }
-
 /**
  * Your MyHashSet object will be instantiated and called as such:
  * MyHashSet obj = new MyHashSet();

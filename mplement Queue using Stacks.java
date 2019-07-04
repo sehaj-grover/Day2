@@ -1,6 +1,7 @@
 class MyQueue {
 
-    Stack<Integer> stk= new Stack<>();
+    Stack<Integer> inStk= new Stack<>();
+    Stack<Integer> outStk= new Stack<>();
     
     /** Initialize your data structure here. */
     public MyQueue() {
@@ -9,33 +10,26 @@ class MyQueue {
     
     /** Push element x to the back of queue. */
     public void push(int x) {
-        stk.push(x);
+        inStk.push(x);
     }
     
     /** Removes the element from in front of queue and returns that element. */
     public int pop() {
-        if(this.empty()){return -1;}
-        Stack<Integer> stk2= new Stack<>();
-        while(!stk.empty()){stk2.push(stk.pop());}
-        int value=stk2.pop();
-        while(!stk2.empty()){stk.push(stk2.pop());}
-        return value;
+        if(outStk.isEmpty()){this.transfer();}
+        return outStk.pop();
     }
     
     /** Get the front element. */
     public int peek() {
-        if(this.empty()){return -1;}
-        Stack<Integer> stk2= new Stack<>();
-        while(!stk.empty()){stk2.push(stk.pop());}
-        int value=stk2.peek();
-        while(!stk2.empty()){stk.push(stk2.pop());}
-        return value;
-        
+        if(outStk.isEmpty()){this.transfer();}
+        return outStk.peek();
     }
-    
+    public void transfer() {
+        while(!inStk.isEmpty()){outStk.push(inStk.pop());}
+    }
     /** Returns whether the queue is empty. */
     public boolean empty() {
-        return stk.empty();
+        return inStk.empty() && outStk.empty();
     }
 }
 
